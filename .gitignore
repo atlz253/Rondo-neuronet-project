@@ -1,1 +1,4 @@
 build
+temp
+.vscode
+a.out
