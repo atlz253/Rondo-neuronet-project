@@ -14,4 +14,4 @@ test: build_test
 
 build_test:
 	mkdir -p temp
-	g++ tests/test_main.cpp -l $(LIBRARIES) -o temp/test
+	g++ tests/test_main.cpp -l $(LIBRARIES) -o temp/test image.cpp
