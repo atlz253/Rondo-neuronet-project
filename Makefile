@@ -1,4 +1,5 @@
 LIBRARIES = png
+FILES = image.cpp
 
 all: build
 
@@ -14,4 +15,4 @@ test: build_test
 
 build_test:
 	mkdir -p temp
-	g++ tests/test_main.cpp -l $(LIBRARIES) -o temp/test image.cpp
+	g++ tests/test_main.cpp -l $(LIBRARIES) -o temp/test $(FILES)

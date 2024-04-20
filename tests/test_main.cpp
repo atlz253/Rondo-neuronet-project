@@ -4,3 +4,4 @@
 #include "boost/gil.hpp"
 #include "json/json.hpp"
 #include "image/image.hpp"
+#include "vector_operations.hpp"
