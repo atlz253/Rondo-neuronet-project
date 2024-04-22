@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(чтение_изображения_должно_быть_�
   boost::container::vector<boost::container::vector<int>> expect(expect_data);
 
   boost::gil::rgba8_image_t img;
-  read_image("selections/input/seven.png", img, boost::gil::png_tag());
+  read_image("selections/clear/C.png", img, boost::gil::png_tag());
 
   boost::gil::rgba8c_view_t img_view = const_view(img);
   const int pixels_count = img_view.width() * img_view.height();
