@@ -72,11 +72,6 @@ namespace image
     int width;
     int height;
 
-    int get_pixels_count()
-    {
-      return this->width * this->height;
-    }
-
   public:
     Image(int width, int height)
     {
@@ -85,8 +80,23 @@ namespace image
       const int pixel_count = get_pixels_count();
       for (int i = 0; i < pixel_count; i++)
       {
-        this->pixel_values.push_back(rgba_values_vector(4));
+        this->pixel_values.push_back(rgba_values_vector{255, 255, 255, 255});
       }
+    }
+
+    int get_pixels_count()
+    {
+      return get_width() * get_height();
+    }
+
+    int get_width()
+    {
+      return this->width;
+    }
+
+    int get_height()
+    {
+      return this->height;
     }
 
     static Image from_json(nlohmann::json &json_data)
@@ -129,6 +139,8 @@ namespace image
   };
 
   Image read_png_image(const char *filename);
+
+  void write_png_image_to_file(Image &img, const char *filename);
 }
 
 #endif // IMAGE_HPP
