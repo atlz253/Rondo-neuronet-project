@@ -7,7 +7,7 @@
 
 #include <boost/container/vector.hpp>
 
-#include "../../external/json.hpp"
+#include "../../../external/json.hpp"
 
 boost::container::vector<boost::container::vector<int>> get_expect_image_values_from_file(const char *path);
 boost::container::vector<boost::container::vector<int>> get_pixel_values_from_image(boost::gil::rgba8_image_t &img);
@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE(чтение_изображения_должно_быть_�
   boost::container::vector<boost::container::vector<int>> expect = get_expect_image_values_from_file("tests/boost/image_read_test.json");
 
   boost::gil::rgba8_image_t img;
-  read_image("selections/clear/C.png", img, boost::gil::png_tag());
+  read_image("../selections/clear/C.png", img, boost::gil::png_tag());
 
   boost::container::vector<boost::container::vector<int>> result = get_pixel_values_from_image(img);
   check_image_values_equal(result, expect);

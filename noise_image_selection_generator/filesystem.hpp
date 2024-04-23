@@ -3,7 +3,7 @@
 
 #include <boost/container/vector.hpp>
 
-#include "../image.hpp"
+#include "image.hpp"
 
 namespace noise_selection_generator
 {

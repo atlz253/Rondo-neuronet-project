@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 
-#include "../../external/json.hpp"
+#include "../../../external/json.hpp"
 
 #include "../../image.hpp"
 
@@ -41,14 +41,14 @@ BOOST_AUTO_TEST_CASE(изображение_должно_создаваться_
 BOOST_AUTO_TEST_CASE(изображение_должно_читаться_из_png_файла)
 {
   nlohmann::json expect = nlohmann::json::parse(std::ifstream("tests/image/image_png_read_test.json"));
-  image::Image result = image::read_png_image("selections/clear/D.png");
+  image::Image result = image::read_png_image("../selections/clear/D.png");
   BOOST_TEST(result.to_json().dump() == expect.dump());
 }
 
 BOOST_AUTO_TEST_CASE(маска_изображения_должна_работать_корректно)
 {
   nlohmann::json expect = nlohmann::json::parse(std::ifstream("tests/image/image_mask_test.json"));
-  image::Image img = image::read_png_image("selections/clear/O.png");
+  image::Image img = image::read_png_image("../selections/clear/O.png");
   nlohmann::json result = img.get_mask().to_json();
   BOOST_TEST(result.dump() == expect.dump());
 }

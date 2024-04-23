@@ -6,7 +6,7 @@
 
 #include "../../external/json.hpp"
 
-#include "../../image.hpp"
+#include "../image.hpp"
 #include "../filesystem.hpp"
 
 BOOST_AUTO_TEST_CASE(чтение_png_изображений_должно_быть_корректно)

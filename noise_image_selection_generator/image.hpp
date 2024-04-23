@@ -3,7 +3,7 @@
 
 #include <boost/container/vector.hpp>
 
-#include "external/json.hpp"
+#include "../external/json.hpp"
 
 #ifndef IMAGE_HPP
 #define IMAGE_HPP

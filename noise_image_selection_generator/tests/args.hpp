@@ -1,7 +1,7 @@
 #include <boost/test/included/unit_test.hpp>
 
-#include "../../noise_selection_generator/args.hpp"
-#include "../../noise_selection_generator/generator.hpp"
+#include "../args.hpp"
+#include "../generator.hpp"
 
 BOOST_AUTO_TEST_CASE(аргументы_должны_обрабатываться_корректно)
 {

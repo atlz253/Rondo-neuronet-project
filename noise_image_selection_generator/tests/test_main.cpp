@@ -3,4 +3,6 @@
 
 #include "args.hpp"
 #include "random.hpp"
+#include "boost/gil.hpp"
 #include "filesystem.hpp"
+#include "image/image.hpp"
