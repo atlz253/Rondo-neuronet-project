@@ -6,7 +6,7 @@ all: build
 run: build
 	./build/neuronet
 
-build: main.cpp
+build: main.cpp image.cpp softmax.hpp neuronet.hpp matrix.hpp linear_algebra.hpp image.hpp activation_functions.hpp
 	mkdir -p build
 	g++ main.cpp $(LIBRARIES) -o build/neuronet
 
