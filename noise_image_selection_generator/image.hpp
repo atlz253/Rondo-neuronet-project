@@ -1,3 +1,4 @@
+#include <string>
 #include <fstream>
 #include <algorithm>
 
@@ -139,8 +140,10 @@ namespace image
   };
 
   Image read_png_image(const char *filename);
+  Image read_png_image(const std::string &filename);
 
   void write_png_image_to_file(Image &img, const char *filename);
+  void write_png_image_to_file(Image &img, const std::string &filename);
 }
 
 #endif // IMAGE_HPP

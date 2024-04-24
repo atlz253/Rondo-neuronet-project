@@ -11,6 +11,7 @@
 #include "../common/arguments.hpp"
 
 #include "generator.hpp"
+#include "string_to_seed.hpp"
 
 namespace noise_selection_generator
 {
@@ -47,6 +48,22 @@ namespace noise_selection_generator
       {
         options->selection_save_path = (*arguments)[arg].front();
       }
+      else if (arg == "--seed")
+      {
+        options->seed = string_to_seed((*arguments)[arg].front());
+      }
+      else if (arg == "--iterations")
+      {
+        options->iterations = std::stoi((*arguments)[arg].front());
+      }
+      else if (arg == "--no-selection-json")
+      {
+        options->generate_selection_json = false;
+      }
+      else if (arg == "--no-image-generation")
+      {
+        options->generate_images = false;
+      }
     }
 
     float parse_noise_precentage(const std::string &precentage)
@@ -79,7 +96,7 @@ namespace noise_selection_generator
       }
     }
 
-    std::string get_deafult_output_selection_directory_name()
+    static std::string get_deafult_output_selection_directory_name()
     {
       std::time_t now = time(0);
       std::tm *ltm = localtime(&now);
@@ -109,6 +126,13 @@ namespace noise_selection_generator
       }
 
       return *options;
+    }
+
+    static generator_options get_options_without_filesystem_write()
+    {
+      generator_options options;
+      options.filesystem_write = false;
+      return options;
     }
   };
 }

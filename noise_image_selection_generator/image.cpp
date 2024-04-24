@@ -32,7 +32,10 @@ void fill_vector_by_pixel_color_data(vector<int> &v, const boost::gil::detail::h
   v[3] = (int)boost::gil::at_c<3>(color_data);
 }
 
-#include <iostream>
+Image image::read_png_image(const std::string &filename)
+{
+  return read_png_image(filename.c_str());
+}
 
 void image::write_png_image_to_file(Image &img, const char *filename)
 {
@@ -45,7 +48,12 @@ void image::write_png_image_to_file(Image &img, const char *filename)
   {
     const int row = i / img.get_height();
     const int column = i % img.get_height();
-    v(column, row) = rgba8_pixel_t(img[i][0], img[i][1], img[i][2], img[i][3]); 
+    v(column, row) = rgba8_pixel_t(img[i][0], img[i][1], img[i][2], img[i][3]);
   }
   write_view(filename, v, png_tag());
+}
+
+void image::write_png_image_to_file(Image &img, const std::string &filename)
+{
+  return write_png_image_to_file(img, filename.c_str());
 }

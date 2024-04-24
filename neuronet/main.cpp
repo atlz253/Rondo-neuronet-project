@@ -7,7 +7,7 @@
 
 int main()
 {
-  srand(time(NULL));
+  // srand(time(NULL));
   neuronet::Neuronet n;
 
   boost::numeric::ublas::matrix<double> question(1, 64);          // FIXME: Заглушка

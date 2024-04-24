@@ -3,11 +3,11 @@
 
 #include <boost/container/vector.hpp>
 
-#include "image.hpp"
+#include "../external/json.hpp"
 
 namespace noise_selection_generator
 {
-  boost::container::vector<image::Image> get_png_images_from_directory(std::string path);
+  nlohmann::json get_json_with_png_info_from_directory(std::string path);
 
   void create_directory(std::string path);
 }

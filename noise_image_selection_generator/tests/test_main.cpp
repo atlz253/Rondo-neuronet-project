@@ -3,5 +3,7 @@
 
 #include "random.hpp"
 #include "boost/gil.hpp"
-#include "filesystem.hpp"
 #include "image/image.hpp"
+#include "string_to_seed.hpp"
+#include "generator/generator.hpp"
+#include "filesystem/filesystem.hpp"

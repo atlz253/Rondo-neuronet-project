@@ -2,8 +2,13 @@
 #define SELECTION_GENERATOR
 
 #include <string>
+#include <fstream>
 
 #include <boost/format.hpp>
+
+#include "../external/json.hpp"
+
+#include "../common/json.hpp"
 
 #include "random.hpp"
 #include "image.hpp"
@@ -16,6 +21,11 @@ namespace noise_selection_generator
     float noise_precentage = 0.1;
     std::string input_selection_path;
     std::string selection_save_path;
+    unsigned int seed = 0;
+    unsigned int iterations = 1;
+    bool generate_selection_json = true;
+    bool generate_images = true;
+    bool filesystem_write = true;
   } generator_options;
 
   class Generator
@@ -23,16 +33,110 @@ namespace noise_selection_generator
   private:
     generator_options options;
 
-    boost::container::vector<image::Image> noisify_images(boost::container::vector<image::Image> &images)
+    nlohmann::json get_input_selection_data()
     {
-      using namespace boost::container;
-
-      for (vector<image::Image>::iterator it = images.begin(); it != images.end(); it++)
+      if (options.generate_selection_json)
       {
-        noisify_image(*it);
+        return read_json_from_file(get_file_relative_input_selection_directory_path("selection.json"));
+      }
+      else
+      {
+        return get_json_with_png_info_from_directory(options.input_selection_path);
+      }
+    }
+
+    nlohmann::json generate_noise_selection(nlohmann::json &input_selection_data)
+    {
+      using namespace nlohmann;
+
+      set_seed(options.seed);
+
+      if (is_output_selection_directory_create_need())
+      {
+        create_directory(options.selection_save_path);
       }
 
-      return images;
+      json result_data;
+
+      for (int j = 0; j < options.iterations; j++)
+      {
+        for (int i = 0; i < input_selection_data.size(); i++)
+        {
+          result_data.push_back(generate_noise_image_with_name_by_json_data((boost::format("%1%.png") % (j * input_selection_data.size() + i)).str(), input_selection_data[i]));
+        }
+      }
+
+      if (is_selection_json_save_need())
+      {
+        write_selection_json(result_data);
+      }
+
+      return result_data;
+    }
+
+    void set_seed(unsigned int seed)
+    {
+      srand((seed == 0) ? time(0) : seed);
+    }
+
+    bool is_output_selection_directory_create_need()
+    {
+      return options.filesystem_write && (options.generate_images || options.generate_selection_json);
+    }
+
+    nlohmann::json generate_noise_image_with_name_by_json_data(std::string filename, nlohmann::json &image_data)
+    {
+      std::string original_image_filename;
+      image_data["filename"].get_to(original_image_filename);
+      image::Image img = image::read_png_image(get_file_relative_input_selection_directory_path(original_image_filename));
+      noisify_image(img);
+      nlohmann::json mask_data = img.get_mask().to_json();
+      mask_data["answer"] = image_data["answer"];
+      mask_data["filename"] = filename;
+      if (is_need_image_file_write())
+      {
+        image::write_png_image_to_file(img, get_file_relative_input_save_directory_path(filename));
+      }
+      return mask_data;
+    }
+
+    bool is_need_image_file_write()
+    {
+      return options.filesystem_write && options.generate_images;
+    }
+
+    bool is_selection_json_save_need()
+    {
+      return options.filesystem_write && options.generate_selection_json;
+    }
+
+    void write_selection_json(nlohmann::json &selection_data)
+    {
+      std::ofstream out(get_file_relative_input_save_directory_path("selection.json"));
+      out << selection_data.dump();
+      out.close();
+    }
+
+    std::string get_file_relative_input_selection_directory_path(std::string &filename)
+    {
+      return (boost::format("%1%/%2%") % options.input_selection_path % filename).str();
+    }
+
+    std::string get_file_relative_input_selection_directory_path(const char *filename)
+    {
+      std::string s(filename);
+      return get_file_relative_input_selection_directory_path(s);
+    }
+
+    std::string get_file_relative_input_save_directory_path(std::string &filename)
+    {
+      return (boost::format("%1%/%2%") % options.selection_save_path % filename).str();
+    }
+
+    std::string get_file_relative_input_save_directory_path(const char *filename)
+    {
+      std::string s(filename);
+      return get_file_relative_input_save_directory_path(s);
     }
 
     void noisify_image(image::Image &img)
@@ -85,13 +189,14 @@ namespace noise_selection_generator
       this->options = options;
     }
 
-    void generate()
+    nlohmann::json generate()
     {
-      boost::container::vector<image::Image> images = get_png_images_from_directory(options.input_selection_path);
-      images.push_back(image::Image(8, 8));
-      images = noisify_images(images);
-      create_directory(options.selection_save_path);
-      write_images(images);      
+      using namespace nlohmann;
+
+      json input_selection_data = get_input_selection_data();
+      json result_data = generate_noise_selection(input_selection_data);
+
+      return result_data;
     }
   };
 }
