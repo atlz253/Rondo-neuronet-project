@@ -90,5 +90,9 @@ int main(int argc, char *argv[])
   }
   out.close();
 
+  std::ofstream weights_out("weights.json");
+  weights_out << n.to_json();
+  weights_out.close();
+
   return 0;
 }

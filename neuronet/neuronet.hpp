@@ -3,6 +3,9 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 
+#include "../external/json.hpp"
+
+#include "matrix.hpp"
 #include "softmax.hpp"
 #include "option_parser.hpp"
 #include "linear_algebra.hpp"
@@ -94,6 +97,19 @@ namespace neuronet
       b1 = b1 - options.learning_rate * dE_db1;
       W2 = W2 - options.learning_rate * dE_dW2;
       b2 = b2 - options.learning_rate * dE_db2;
+    }
+
+    nlohmann::json to_json()
+    {
+      nlohmann::json j;
+
+      j["first_layer_neurons_count"] = options.first_layer_neurons_count;
+      j["W1"] = convert_matrix_to_json(W1);
+      j["b1"] = convert_matrix_to_json(b1);
+      j["W2"] = convert_matrix_to_json(W2);
+      j["b2"] = convert_matrix_to_json(b2);
+
+      return j;
     }
   };
 }
