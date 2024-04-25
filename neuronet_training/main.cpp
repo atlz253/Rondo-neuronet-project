@@ -33,7 +33,9 @@ int main(int argc, char *argv[])
   neuronet::OptionParser option_parser;
   neuronet::trainer_options options = option_parser.parse_from_arguments(arguments);
   neuronet::Neuronet n(options.neuronet_params);
+  
   nlohmann::json report;
+  report["learning_rate"] = options.neuronet_params.learning_rate;
 
   nlohmann::json dataset = read_json_from_file(options.input_selection_path);
 
@@ -56,7 +58,6 @@ int main(int argc, char *argv[])
       nlohmann::json backward_report;
       backward_report["type"] = "backward";
       backward_report["result"] = neuronet::convert_matrix_to_json(n.last_result);
-      backward_report["learning_rate"] = options.neuronet_params.learning_rate;
       boost::numeric::ublas::matrix<double> answer = neuronet::json_to_matrix<double>(dataset[j]["answer"]);
       backward_report["answer"] = neuronet::convert_matrix_to_json(answer);
 
@@ -64,11 +65,6 @@ int main(int argc, char *argv[])
       double E = neuronet::sparse_cross_entropy(z, answer);
       backward_report["E"] = E;
       std::cout << E << std::endl;
-
-      backward_report["W1_before"] = neuronet::convert_matrix_to_json(n.W1);
-      backward_report["b1_before"] = neuronet::convert_matrix_to_json(n.b1);
-      backward_report["W2_before"] = neuronet::convert_matrix_to_json(n.W2);
-      backward_report["b2_before"] = neuronet::convert_matrix_to_json(n.b2);
 
       n.backward(answer);
 
@@ -80,10 +76,10 @@ int main(int argc, char *argv[])
       backward_report["dE_dW1"] = neuronet::convert_matrix_to_json(n.dE_dW1);
       backward_report["dE_db1"] = neuronet::convert_matrix_to_json(n.dE_db1);
 
-      backward_report["W1_after"] = neuronet::convert_matrix_to_json(n.W1);
-      backward_report["b1_after"] = neuronet::convert_matrix_to_json(n.b1);
-      backward_report["W2_after"] = neuronet::convert_matrix_to_json(n.W2);
-      backward_report["b2_after"] = neuronet::convert_matrix_to_json(n.b2);
+      backward_report["W1"] = neuronet::convert_matrix_to_json(n.W1);
+      backward_report["b1"] = neuronet::convert_matrix_to_json(n.b1);
+      backward_report["W2"] = neuronet::convert_matrix_to_json(n.W2);
+      backward_report["b2"] = neuronet::convert_matrix_to_json(n.b2);
 
       report["report"].push_back(backward_report);
     }
