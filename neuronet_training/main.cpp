@@ -13,8 +13,9 @@
 #include "../common/neuronet/neuronet.hpp"
 #include "../common/neuronet/sparse_cross_entropy.hpp"
 
-#include "option_parser.hpp"
+#include "progress.hpp"
 #include "help_message.hpp"
+#include "option_parser.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -39,8 +40,10 @@ int main(int argc, char *argv[])
 
   nlohmann::json dataset = read_json_from_file(options.input_selection_path);
 
+  std::cout << "Обучение нейросети" << std::endl;
   for (int i = 0; i < options.epochs_count; i++)
   {
+    show_progress_bar((float)(i * dataset.size()) / (options.epochs_count * dataset.size()));
     for (int j = 0; j < dataset.size(); j++)
     {
       nlohmann::json forward_report;
@@ -61,10 +64,8 @@ int main(int argc, char *argv[])
       boost::numeric::ublas::matrix<double> answer = neuronet::json_to_matrix<double>(dataset[j]["answer"]);
       backward_report["answer"] = neuronet::convert_matrix_to_json(answer);
 
-      std::cout << z << std::endl;
       double E = neuronet::sparse_cross_entropy(z, answer);
       backward_report["E"] = E;
-      std::cout << E << std::endl;
 
       n.backward(answer);
 
@@ -84,7 +85,11 @@ int main(int argc, char *argv[])
       report["report"].push_back(backward_report);
     }
   }
+  show_progress_bar(1);
 
+  std::cout << std::endl << "Запись полученных данных в хранилище" << std::endl;
+
+  show_progress_bar(0);
   std::ofstream out("report.bson");
   std::vector<uint8_t> report_bson = nlohmann::json::to_bson(report);
   for (int i = 0; i < report_bson.size(); i++)
@@ -92,10 +97,12 @@ int main(int argc, char *argv[])
     out << report_bson[i];
   }
   out.close();
+  show_progress_bar(0.5);
 
   std::ofstream weights_out("weights.json");
   weights_out << n.to_json();
   weights_out.close();
+  show_progress_bar(1);
 
   return 0;
 }
