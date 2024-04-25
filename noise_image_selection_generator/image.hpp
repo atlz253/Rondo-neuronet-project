@@ -55,7 +55,7 @@ namespace image
       for (pixel_values_vector::iterator it = this->pixel_values->begin(); it != this->pixel_values->end(); it++, i++)
       {
         rgba_values_vector v = *it;
-        j["data"][i] = get_mask_value(v);
+        j["values"][i] = get_mask_value(v);
       }
       return j;
     }
@@ -104,7 +104,7 @@ namespace image
     {
       Image img(json_data["width"], json_data["height"]);
       int i = 0;
-      for (nlohmann::json::iterator it = json_data["data"].begin(); it != json_data["data"].end(); it++, i++)
+      for (nlohmann::json::iterator it = json_data["values"].begin(); it != json_data["values"].end(); it++, i++)
       {
         img[i][0] = (*it)[0];
         img[i][1] = (*it)[1];
@@ -123,7 +123,7 @@ namespace image
       for (pixel_values_vector::iterator it = this->pixel_values.begin(); it != this->pixel_values.end(); it++, i++)
       {
         rgba_values_vector v = *it;
-        j["data"][i] = {v[0], v[1], v[2], v[3]};
+        j["values"][i] = {v[0], v[1], v[2], v[3]};
       }
       return j;
     }

@@ -92,7 +92,7 @@ namespace noise_selection_generator
       }
       catch (boost::bad_lexical_cast &)
       {
-        throw OptionParserException((boost::format("Не удалось преобразовать аргумент к типу float: %%1") % s).str());
+        throw OptionParserException((boost::format("Не удалось преобразовать аргумент к типу float: %1%") % s).str());
       }
     }
 

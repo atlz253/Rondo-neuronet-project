@@ -6,6 +6,7 @@
 
 #include "../../generator.hpp"
 #include "../../options_parser.hpp"
+#include "../../string_to_seed.hpp"
 
 BOOST_AUTO_TEST_CASE(генератор_должен_работать_исправно)
 {
@@ -14,7 +15,7 @@ BOOST_AUTO_TEST_CASE(генератор_должен_работать_испра
   nlohmann::json expected = read_json_from_file("tests/generator/generator_test.json");
   generator_options options = OptionsParser::get_options_without_filesystem_write();
   options.input_selection_path = "../selections/clear";
-  options.seed = 398;
+  options.seed = string_to_seed("test");
   Generator generator(options);
   
   nlohmann::json result = generator.generate();
@@ -29,7 +30,7 @@ BOOST_AUTO_TEST_CASE(количество_изображений_должно_с
   nlohmann::json expected = read_json_from_file("tests/generator/iterations_test.json");
   generator_options options = OptionsParser::get_options_without_filesystem_write();
   options.input_selection_path = "../selections/clear";
-  options.seed = 398;
+  options.seed = string_to_seed("test2");
   options.iterations = 5;
   Generator generator(options);
 

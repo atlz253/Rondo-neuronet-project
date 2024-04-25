@@ -1,15 +1,15 @@
 LIBRARIES = -l png
-TEMP_PATH = ../temp/neuronet
+TEMP_PATH = ../temp/neucat
 BUILD_PATH = ../build
 
 all: build
 
 run: build
-	./build/neuronet
+	./build/neucat
 
 build: main.cpp softmax.hpp neuronet.hpp matrix.hpp linear_algebra.hpp activation_functions.hpp
 	mkdir -p $(BUILD_PATH)
-	g++ main.cpp $(LIBRARIES) -o $(BUILD_PATH)/neuronet
+	g++ main.cpp $(LIBRARIES) -o $(BUILD_PATH)/neucat
 
 test: build_test
 	./$(TEMP_PATH)/test

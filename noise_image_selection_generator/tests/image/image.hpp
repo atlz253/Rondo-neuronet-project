@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(изображение_должно_создаваться_
   nlohmann::json json_data;
   json_data["width"] = 2;
   json_data["height"] = 1;
-  json_data["data"] = {{255, 255, 255, 255}, {0, 0, 0, 255}};
+  json_data["values"] = {{255, 255, 255, 255}, {0, 0, 0, 255}};
   image::Image result = image::Image::from_json(json_data);
   BOOST_TEST(result.to_json().dump() == json_data.dump());
 }
