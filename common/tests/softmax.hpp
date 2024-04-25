@@ -4,8 +4,8 @@
 
 #include "utils/check_matrix_equal.hpp"
 
-#include "../matrix.hpp"
-#include "../softmax.hpp"
+#include "../neuronet/matrix.hpp"
+#include "../neuronet/softmax.hpp"
 
 bool is_argument_not_vector_message(const std::logic_error &ex);
 

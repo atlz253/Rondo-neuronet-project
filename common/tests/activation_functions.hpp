@@ -1,6 +1,6 @@
 #include <boost/test/included/unit_test.hpp>
 
-#include "../activation_functions.hpp"
+#include "../neuronet/activation_functions.hpp"
 
 BOOST_AUTO_TEST_CASE(ReLU_выдает_само_значение_если_оно_положительно)
 {

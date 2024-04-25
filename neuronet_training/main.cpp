@@ -9,11 +9,12 @@
 #include "../common/json.hpp"
 #include "../common/arguments.hpp"
 
-#include "matrix.hpp"
-#include "neuronet.hpp"
-#include "help_message.hpp"
+#include "../common/neuronet/matrix.hpp"
+#include "../common/neuronet/neuronet.hpp"
+#include "../common/neuronet/sparse_cross_entropy.hpp"
+
 #include "option_parser.hpp"
-#include "sparse_cross_entropy.hpp"
+#include "help_message.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -31,7 +32,7 @@ int main(int argc, char *argv[])
   // srand(time(NULL));
   neuronet::OptionParser option_parser;
   neuronet::trainer_options options = option_parser.parse_from_arguments(arguments);
-  neuronet::Neuronet n(options);
+  neuronet::Neuronet n(options.neuronet_params);
   nlohmann::json report;
 
   nlohmann::json dataset = read_json_from_file(options.input_selection_path);
@@ -55,7 +56,7 @@ int main(int argc, char *argv[])
       nlohmann::json backward_report;
       backward_report["type"] = "backward";
       backward_report["result"] = neuronet::convert_matrix_to_json(n.last_result);
-      backward_report["learning_rate"] = options.learning_rate;
+      backward_report["learning_rate"] = options.neuronet_params.learning_rate;
       boost::numeric::ublas::matrix<double> answer = neuronet::json_to_matrix<double>(dataset[j]["answer"]);
       backward_report["answer"] = neuronet::convert_matrix_to_json(answer);
 

@@ -4,7 +4,7 @@
 
 #include "utils/check_matrix_equal.hpp"
 
-#include "../linear_algebra.hpp"
+#include "../neuronet/linear_algebra.hpp"
 
 bool is_not_vector_message(const std::logic_error &ex);
 bool is_wrong_matrix_sizes_message(const std::logic_error &ex);

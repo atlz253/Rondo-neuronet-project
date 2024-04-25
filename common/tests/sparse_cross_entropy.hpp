@@ -2,8 +2,8 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 
-#include "../matrix.hpp"
-#include "../sparse_cross_entropy.hpp"
+#include "../neuronet/matrix.hpp"
+#include "../neuronet/sparse_cross_entropy.hpp"
 
 bool is_sparse_cross_entropy_argument_not_vector_message(const std::logic_error &ex);
 bool is_sparse_cross_entropy_vector_different_sizes_message(const std::logic_error &ex);

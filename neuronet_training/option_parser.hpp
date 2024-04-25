@@ -12,10 +12,9 @@ namespace neuronet
 {
   typedef struct trainer_options
   {
+    neuronet_options neuronet_params;
     std::string input_selection_path;
-    double learning_rate = 0.001;
     unsigned int epochs_count = 100;
-    unsigned int first_layer_neurons_count = 64;
   } trainer_options;
 
   class OptionParserException: public std::exception
@@ -45,7 +44,7 @@ namespace neuronet
       }
       else if (arg == "--learning-rate")
       {
-        options->learning_rate = parse_double((*arguments)[arg].front());
+        options->neuronet_params.learning_rate = parse_double((*arguments)[arg].front());
       }
       else if (arg == "--epochs-count")
       {
@@ -53,7 +52,7 @@ namespace neuronet
       }
       else if (arg == "--first-layer-neurons-count")
       {
-        options->first_layer_neurons_count = std::stoi((*arguments)[arg].front());
+        options->neuronet_params.first_layer_neurons_count = std::stoi((*arguments)[arg].front());
       }
     }
 

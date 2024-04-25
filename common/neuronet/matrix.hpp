@@ -3,7 +3,7 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 
-#include "../external/json.hpp"
+#include "../../external/json.hpp"
 
 namespace neuronet
 {

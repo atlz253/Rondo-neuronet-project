@@ -3,11 +3,10 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 
-#include "../external/json.hpp"
+#include "../../external/json.hpp"
 
 #include "matrix.hpp"
 #include "softmax.hpp"
-#include "option_parser.hpp"
 #include "linear_algebra.hpp"
 #include "activation_functions.hpp"
 
@@ -19,11 +18,16 @@
 
 namespace neuronet
 {
+  typedef struct neuronet_options
+  {
+    double learning_rate = 0.001;
+    unsigned int first_layer_neurons_count = 64;
+  } neuronet_options;
 
   class Neuronet
   {
   private:
-    trainer_options options;
+    neuronet_options options;
 
   public:
     boost::numeric::ublas::matrix<double> W1;
@@ -49,7 +53,7 @@ namespace neuronet
     boost::numeric::ublas::matrix<double> dE_dW1;
     boost::numeric::ublas::matrix<double> dE_db1;
 
-    Neuronet(trainer_options &options)
+    Neuronet(neuronet_options &options)
     {
       this->options = options;
 

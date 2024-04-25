@@ -6,7 +6,7 @@
 
 #include "../../../common/json.hpp"
 
-#include "../../matrix.hpp"
+#include "../../neuronet/matrix.hpp"
 
 BOOST_AUTO_TEST_CASE(получение_матрицы_со_значениями_из_массива_должно_быть_корректным)
 {
