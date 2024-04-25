@@ -33,6 +33,30 @@ namespace neuronet
 
     return result;
   }
+
+  template <typename T>
+  T ReLU_deriv(T x)
+  {
+    return (x >= 0) ? 1 : 0;
+  }
+
+  template <typename T>
+  boost::numeric::ublas::matrix<T> ReLU_deriv(boost::numeric::ublas::matrix<T> &m)
+  {
+    if (m.size1() > 1)
+    {
+      throw std::invalid_argument("ReLU_deriv работает только с векторами");
+    }
+
+    boost::numeric::ublas::matrix<T> result(1, m.size2());
+
+    for (int i = 0; i < m.size2(); i++)
+    {
+      result(0, i) = ReLU_deriv(m(0, i));
+    }
+
+    return result;
+  }
 }
 
 #endif

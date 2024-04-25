@@ -10,29 +10,6 @@
 namespace neuronet
 {
   template <typename T>
-  boost::numeric::ublas::matrix<T> sum_matrix_by_matrix(boost::numeric::ublas::matrix<T> &m1, boost::numeric::ublas::matrix<T> &m2)
-  {
-    using namespace boost::numeric::ublas;
-
-    if (m1.size1() != m2.size1() || m1.size2() != m2.size2())
-    {
-      throw std::invalid_argument("Матрицы разного размера, сложение невозможно");
-    }
-
-    matrix<T> result(m1.size1(), m1.size2());
-
-    for (int i = 0; i < m1.size1(); i++)
-    {
-      for (int j = 0; j < m1.size2(); j++)
-      {
-        result(i, j) = m1(i, j) + m2(i, j);
-      }
-    }
-
-    return result;
-  }
-
-  template <typename T>
   T sum_vector_values(boost::numeric::ublas::matrix<T> &v)
   {
     if (v.size1() > 1)
@@ -69,6 +46,27 @@ namespace neuronet
         {
           result(j, k) += m1(j, i) * m2(i, k);
         }
+      }
+    }
+
+    return result;
+  }
+
+  template <typename T>
+  boost::numeric::ublas::matrix<T> hadamard_multiply_matrix_by_matrix(boost::numeric::ublas::matrix<T> &m1, boost::numeric::ublas::matrix<T> &m2)
+  {
+    if (m1.size1() != m2.size1() || m1.size2() != m2.size2())
+    {
+      throw std::invalid_argument("Произведение адамара работает для матриц одинаковой размерности");
+    }
+
+    boost::numeric::ublas::matrix<T> result(m1.size1(), m1.size2());
+
+    for (int i = 0; i < m1.size1(); i++)
+    {
+      for (int j = 0; j < m1.size2(); j++)
+      {
+        result(i, j) = m1(i, j) * m2(i, j);
       }
     }
 

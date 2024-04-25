@@ -6,3 +6,4 @@
 #include "json/json.hpp"
 #include "linear_algebra.hpp"
 #include "activation_functions.hpp"
+#include "sparse_cross_entropy.hpp"

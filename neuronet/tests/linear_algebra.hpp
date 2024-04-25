@@ -6,41 +6,9 @@
 
 #include "../linear_algebra.hpp"
 
-bool is_wrong_matrix_sizes_message(const std::logic_error &ex);
-bool is_matrix_sizes_not_equal_message(const std::logic_error &ex);
 bool is_not_vector_message(const std::logic_error &ex);
-
-BOOST_AUTO_TEST_CASE(сложение_матриц_выбрасывает_исключение_если_они_разного_размера)
-{
-  using namespace neuronet;
-  using namespace boost::numeric::ublas;
-
-  matrix<int> m1(3, 3), m2(1, 1);
-
-  BOOST_CHECK_EXCEPTION(sum_matrix_by_matrix(m1, m2), std::invalid_argument, is_matrix_sizes_not_equal_message);
-}
-
-bool is_matrix_sizes_not_equal_message(const std::logic_error &ex)
-{
-  BOOST_CHECK_EQUAL(ex.what(), std::string("Матрицы разного размера, сложение невозможно"));
-  return true;
-}
-
-BOOST_AUTO_TEST_CASE(сложение_матриц_должно_работать_корректно)
-{
-  using namespace neuronet;
-  using namespace boost::numeric::ublas;
-
-  int expected_matrix_values[3][3] = {{2, 4, 6}, {8, 10, 12}, {14, 16, 18}};
-  matrix<int> expect = get_filled_matrix_by_array_with_sizes((int *)expected_matrix_values, 3, 3);
-  int matrix_values[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-  matrix<int> m1 = get_filled_matrix_by_array_with_sizes((int *)matrix_values, 3, 3);
-  matrix<int> m2(m1);
-
-  matrix<int> result = sum_matrix_by_matrix(m1, m2);
-
-  check_matrix_equal(result, expect);
-}
+bool is_wrong_matrix_sizes_message(const std::logic_error &ex);
+bool is_hadamard_multiply_matrix_different_message(const std::logic_error &ex);
 
 BOOST_AUTO_TEST_CASE(сложение_значений_вектора_выбрасывает_исключение_если_была_передана_матрица)
 {
@@ -99,6 +67,38 @@ BOOST_AUTO_TEST_CASE(умножение_матрицы_на_матрицу_до�
   matrix<int> m2(m1);
 
   matrix<int> result = multiply_matrix_by_matrix(m1, m2);
+
+  check_matrix_equal(result, expected);
+}
+
+BOOST_AUTO_TEST_CASE(произведение_Адамара_должно_выбрасывать_исключение_если_матрицы_разной_размерности)
+{
+  using namespace neuronet;
+  using namespace boost::numeric::ublas;
+
+  matrix<int> m1(2, 2), m2(1, 1);
+
+  BOOST_CHECK_EXCEPTION(hadamard_multiply_matrix_by_matrix(m1, m2), std::invalid_argument, is_hadamard_multiply_matrix_different_message);
+}
+
+bool is_hadamard_multiply_matrix_different_message(const std::logic_error &ex)
+{
+  BOOST_CHECK_EQUAL(ex.what(), std::string("Произведение адамара работает для матриц одинаковой размерности"));
+  return true;
+}
+
+BOOST_AUTO_TEST_CASE(произведение_Адамара_должно_работать_корректно)
+{
+  using namespace neuronet;
+  using namespace boost::numeric::ublas;
+
+  int expected_matrix_values[3][3] = {{1, 4, 9}, {16, 25, 36}, {49, 64, 81}};
+  matrix<int> expected = get_filled_matrix_by_array_with_sizes((int *)expected_matrix_values, 3, 3);
+  int matrix_values[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+  matrix<int> m1 = get_filled_matrix_by_array_with_sizes((int *)matrix_values, 3, 3);
+  matrix<int> m2(m1);
+
+  matrix<int> result = hadamard_multiply_matrix_by_matrix(m1, m2);
 
   check_matrix_equal(result, expected);
 }

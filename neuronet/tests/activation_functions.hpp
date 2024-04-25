@@ -16,3 +16,18 @@ BOOST_AUTO_TEST_CASE(ReLU_выдает_ноль_если_значение_отр
   BOOST_TEST(neuronet::ReLU(-10) == 0);
   BOOST_TEST(neuronet::ReLU(-64) == 0);
 }
+
+BOOST_AUTO_TEST_CASE(ReLU_deriv_выдает_единицу_если_значение_положительно)
+{
+  BOOST_TEST(neuronet::ReLU_deriv(0) == 1);
+  BOOST_TEST(neuronet::ReLU_deriv(1) == 1);
+  BOOST_TEST(neuronet::ReLU_deriv(10) == 1);
+  BOOST_TEST(neuronet::ReLU_deriv(64) == 1);
+}
+
+BOOST_AUTO_TEST_CASE(ReLU_deriv_выдает_ноль_если_значение_отрицательно)
+{
+  BOOST_TEST(neuronet::ReLU_deriv(-1) == 0);
+  BOOST_TEST(neuronet::ReLU_deriv(-10) == 0);
+  BOOST_TEST(neuronet::ReLU_deriv(-64) == 0);
+}
