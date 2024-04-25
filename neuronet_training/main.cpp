@@ -30,11 +30,11 @@ int main(int argc, char *argv[])
 
   // TODO: выбрасывать ошибку если не передан аргумент --input
 
-  // srand(time(NULL));
+  srand(time(NULL));
   neuronet::OptionParser option_parser;
   neuronet::trainer_options options = option_parser.parse_from_arguments(arguments);
   neuronet::Neuronet n(options.neuronet_params);
-  
+
   nlohmann::json report;
   report["learning_rate"] = options.neuronet_params.learning_rate;
 
@@ -87,7 +87,26 @@ int main(int argc, char *argv[])
   }
   show_progress_bar(1);
 
-  std::cout << std::endl << "Запись полученных данных в хранилище" << std::endl;
+  std::cout << std::endl
+            << "Подсчет точности распознавания изображений из входной выборки" << std::endl;
+
+  int correct = 0;
+  for (int j = 0; j < dataset.size(); j++)
+  {
+    boost::numeric::ublas::matrix<double> question = neuronet::json_to_matrix<double>(dataset[j]["values"]);
+    boost::numeric::ublas::matrix<double> answer = neuronet::json_to_matrix<double>(dataset[j]["answer"]);
+    boost::numeric::ublas::matrix<double> z = n.forward(question);
+    unsigned int z_index = neuronet::get_maximum_vector_index(z);
+
+    if (answer(0, z_index) == 1)
+    {
+      correct++;
+    }
+  }
+  report["accuracy"] = (float)correct / dataset.size();
+  std::cout << "Точность распознавания входной выборки: " << report["accuracy"] << std::endl;
+
+  std::cout << "Запись полученных данных в хранилище" << std::endl;
 
   show_progress_bar(0);
   std::ofstream out("report.bson");

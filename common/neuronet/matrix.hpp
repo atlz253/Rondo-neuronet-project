@@ -57,6 +57,26 @@ namespace neuronet
   }
 
   template <typename T>
+  unsigned int get_maximum_vector_index(boost::numeric::ublas::matrix<T> &v)
+  {
+    if (v.size1() > 1)
+    {
+      throw std::invalid_argument("Вместо вектора была передана матрица");
+    }
+
+    unsigned int max_index = 0;
+    for (int i = 0; i < v.size2(); i++)
+    {
+      if (v(0, max_index) < v(0, i))
+      {
+        max_index = i;
+      }
+    }
+
+    return max_index;
+  }
+
+  template <typename T>
   nlohmann::json convert_matrix_to_json(boost::numeric::ublas::matrix<T> &m)
   {
     nlohmann::json result;
