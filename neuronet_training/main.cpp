@@ -41,6 +41,12 @@ int main(int argc, char *argv[])
   neuronet::trainer_options options = option_parser.parse_from_arguments(arguments);
   neuronet::Neuronet n(options.neuronet_params);
 
+  if (options.weights_path.size() > 0)
+  {
+    nlohmann::json weights_json = read_json_from_file(options.weights_path);
+    n = neuronet::Neuronet(weights_json);
+  }
+
   nlohmann::json report;
   report["learning_rate"] = options.neuronet_params.learning_rate;
 
