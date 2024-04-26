@@ -2,6 +2,7 @@
 #define LINEAR_ALGEBRA_HPP
 
 #include <cmath>
+#include <limits>
 
 #include <boost/numeric/ublas/matrix.hpp>
 
@@ -82,7 +83,14 @@ namespace neuronet
     {
       for (int j = 0; j < m.size2(); j++)
       {
-        result(i, j) = exp(m(i, j));
+        if (m(i, j) >= 709.8)
+        {
+          result(i, j) = -std::numeric_limits<T>::max();
+        }
+        else
+        {
+          result(i, j) = exp(m(i, j));
+        }
       }
     }
 

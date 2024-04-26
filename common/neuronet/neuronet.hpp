@@ -10,9 +10,6 @@
 #include "linear_algebra.hpp"
 #include "activation_functions.hpp"
 
-#include <iostream>
-#include <boost/numeric/ublas/io.hpp>
-
 #define NEURONET_INPUTS 64 // Количество пикселей в изображении 8x8
 #define NEURONET_OUTPUTS 5 // Возможные варианты ответа: C, D, O, Q, Неизвестно
 

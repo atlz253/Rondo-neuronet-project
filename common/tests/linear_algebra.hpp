@@ -1,5 +1,7 @@
 #include <boost/test/included/unit_test.hpp>
 
+#include <limits>
+
 #include <boost/numeric/ublas/matrix.hpp>
 
 #include "utils/check_matrix_equal.hpp"
@@ -112,6 +114,21 @@ BOOST_AUTO_TEST_CASE(exp_matrix_работает_корректно)
   matrix<double> expect = get_filled_matrix_by_array_with_sizes((double *)expect_values, 3, 3);
   double matrix_values[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
   matrix<double> m = get_filled_matrix_by_array_with_sizes((double *)matrix_values, 3, 3);
+
+  matrix<double> result = exp_matrix(m);
+
+  check_matrix_equal(result, expect);
+}
+
+BOOST_AUTO_TEST_CASE(exp_matrix_возвращает_минимальный_double_если_достигнут_лимит_точности)
+{
+  using namespace neuronet;
+  using namespace boost::numeric::ublas;
+
+  double expect_values[1][2] = {{-std::numeric_limits<double>::max(), -std::numeric_limits<double>::max()}};
+  matrix<double> expect = get_filled_matrix_by_array_with_sizes((double *)expect_values, 1, 2);
+  double matrix_values[1][2] = {{709.9, 1000}};
+  matrix<double> m = get_filled_matrix_by_array_with_sizes((double *)matrix_values, 1, 2);
 
   matrix<double> result = exp_matrix(m);
 
