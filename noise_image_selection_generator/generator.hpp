@@ -11,7 +11,7 @@
 #include "../common/json.hpp"
 
 #include "random.hpp"
-#include "image.hpp"
+#include "../common/image/image.hpp"
 #include "filesystem.hpp"
 
 namespace noise_selection_generator

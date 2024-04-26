@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 
+#include <boost/format.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 
@@ -60,7 +61,7 @@ int main(int argc, char *argv[])
 
     for (int j = 0; j < dataset.size(); j++)
     {
-      boost::numeric::ublas::matrix<double> question = neuronet::json_to_matrix<double>(dataset[j]["values"]);
+      boost::numeric::ublas::matrix<double> question = neuronet::json_vector_to_matrix<double>(dataset[j]["values"]);
 
       boost::numeric::ublas::matrix<double> z = n.forward(question);
 
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
         report["report"].push_back(forward_report);
       }
 
-      boost::numeric::ublas::matrix<double> answer = neuronet::json_to_matrix<double>(dataset[j]["answer"]);
+      boost::numeric::ublas::matrix<double> answer = neuronet::json_vector_to_matrix<double>(dataset[j]["answer"]);
 
       double E = neuronet::sparse_cross_entropy(z, answer);
 
@@ -114,8 +115,8 @@ int main(int argc, char *argv[])
   int correct = 0;
   for (int j = 0; j < dataset.size(); j++)
   {
-    boost::numeric::ublas::matrix<double> question = neuronet::json_to_matrix<double>(dataset[j]["values"]);
-    boost::numeric::ublas::matrix<double> answer = neuronet::json_to_matrix<double>(dataset[j]["answer"]);
+    boost::numeric::ublas::matrix<double> question = neuronet::json_vector_to_matrix<double>(dataset[j]["values"]);
+    boost::numeric::ublas::matrix<double> answer = neuronet::json_vector_to_matrix<double>(dataset[j]["answer"]);
     boost::numeric::ublas::matrix<double> z = n.forward(question);
     unsigned int z_index = neuronet::get_maximum_vector_index(z);
 
@@ -137,8 +138,8 @@ int main(int argc, char *argv[])
     correct = 0;
     for (int j = 0; j < test_selection.size(); j++)
     {
-      boost::numeric::ublas::matrix<double> question = neuronet::json_to_matrix<double>(test_selection[j]["values"]);
-      boost::numeric::ublas::matrix<double> answer = neuronet::json_to_matrix<double>(test_selection[j]["answer"]);
+      boost::numeric::ublas::matrix<double> question = neuronet::json_vector_to_matrix<double>(test_selection[j]["values"]);
+      boost::numeric::ublas::matrix<double> answer = neuronet::json_vector_to_matrix<double>(test_selection[j]["answer"]);
       boost::numeric::ublas::matrix<double> z = n.forward(question);
       unsigned int z_index = neuronet::get_maximum_vector_index(z);
 
@@ -174,6 +175,10 @@ int main(int argc, char *argv[])
     std::ofstream weights_out("weights.json");
     weights_out << n.to_json();
     weights_out.close();
+    show_progress_bar(0.5);
+    std::ofstream weights_cpp_out("weights.cpp");
+    weights_cpp_out << (boost::format("#include \"weights.hpp\"\nnlohmann::json weights = nlohmann::json::parse(R\"(%1%)\");") % n.to_json()).str();
+    weights_cpp_out.close();
     show_progress_bar(1);
   }
 

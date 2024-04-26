@@ -2,3 +2,4 @@ build
 temp
 .vscode
 a.out
+character_recognition/weights.cpp

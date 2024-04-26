@@ -64,6 +64,16 @@ namespace neuronet
       b2 = get_random_values_matrix_with_sizes(1, NEURONET_OUTPUTS);
     }
 
+    Neuronet(nlohmann::json &j)
+    {
+      options.first_layer_neurons_count = j["first_layer_neurons_count"];
+      options.learning_rate = j["learning_rate"];
+      W1 = parse_matrix_from_json<double>(j["W1"]);
+      b1 = parse_matrix_from_json<double>(j["b1"]);
+      W2 = parse_matrix_from_json<double>(j["W2"]);
+      b2 = parse_matrix_from_json<double>(j["b2"]);
+    }
+
     boost::numeric::ublas::matrix<double> forward(boost::numeric::ublas::matrix<double> question)
     {
       using namespace boost::numeric::ublas;
@@ -108,6 +118,7 @@ namespace neuronet
       nlohmann::json j;
 
       j["first_layer_neurons_count"] = options.first_layer_neurons_count;
+      j["learning_rate"] = options.learning_rate;
       j["W1"] = convert_matrix_to_json(W1);
       j["b1"] = convert_matrix_to_json(b1);
       j["W2"] = convert_matrix_to_json(W2);

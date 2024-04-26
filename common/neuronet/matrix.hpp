@@ -80,8 +80,8 @@ namespace neuronet
   nlohmann::json convert_matrix_to_json(boost::numeric::ublas::matrix<T> &m)
   {
     nlohmann::json result;
-    result["height"] = m.size1();
-    result["width"] = m.size2();
+    result["height"] = (int)m.size1();
+    result["width"] = (int)m.size2();
 
     for (int i = 0; i < m.size1(); i++)
     {
@@ -103,7 +103,7 @@ namespace neuronet
     {
       for (int j = 0; j < result.size2(); j++)
       {
-        result(i, j) = data["values"][i * result.size1() + j];
+        result(i, j) = data["values"][i * result.size2() + j];
       }
     }
 
@@ -111,7 +111,7 @@ namespace neuronet
   }
 
   template <typename T>
-  boost::numeric::ublas::matrix<T> json_to_matrix(nlohmann::json &v)
+  boost::numeric::ublas::matrix<T> json_vector_to_matrix(nlohmann::json &v)
   {
     boost::numeric::ublas::matrix<T> result(1, v.size());
 

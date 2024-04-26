@@ -5,7 +5,7 @@
 
 #include "../../../external/json.hpp"
 
-#include "../../image.hpp"
+#include "../../image/image.hpp"
 
 #include <boost/container/vector.hpp>
 

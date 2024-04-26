@@ -1,5 +1,5 @@
 LIBRARIES = -l png -l boost_system -l boost_filesystem
-FILES = filesystem.cpp random.cpp image.cpp
+FILES = filesystem.cpp random.cpp ../common/image/image.cpp
 TEMP_PATH = ../temp/noisgen
 BUILD_PATH = ../build
 
