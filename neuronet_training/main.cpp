@@ -30,7 +30,10 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  // TODO: выбрасывать ошибку если не передан аргумент --input
+  if (!arguments.contains("--input-selection"))
+  {
+    throw std::invalid_argument("Отсутствует обязательный аргумент --input-selection");
+  }
 
   srand(time(NULL));
   neuronet::OptionParser option_parser;
