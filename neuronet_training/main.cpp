@@ -1,3 +1,4 @@
+#include <chrono>
 #include <random>
 #include <fstream>
 #include <iostream>
@@ -56,6 +57,7 @@ int main(int argc, char *argv[])
   auto rng = std::default_random_engine{rd()};
 
   std::cout << "Обучение нейросети" << std::endl;
+  auto start = std::chrono::steady_clock::now();
   for (int i = 0; i < options.epochs_count; i++)
   {
     show_progress_bar((float)(i * dataset.size()) / (options.epochs_count * dataset.size()));
@@ -113,11 +115,14 @@ int main(int argc, char *argv[])
       }
     }
   }
+  auto current = std::chrono::steady_clock::now();
   show_progress_bar(1);
-
   std::cout << std::endl
-            << "Подсчет точности распознавания изображений из входной выборки" << std::endl;
+            << "Обучение нейросети прошло за: " << std::chrono::duration_cast<std::chrono::seconds>(current - start).count() << " секунд" << std::endl;
 
+  std::cout << "Подсчет точности распознавания изображений из входной выборки" << std::endl;
+
+  start = std::chrono::steady_clock::now();
   int correct = 0;
   for (int j = 0; j < dataset.size(); j++)
   {
@@ -132,13 +137,16 @@ int main(int argc, char *argv[])
     }
   }
   report["accuracy"] = (float)correct / dataset.size();
+  current = std::chrono::steady_clock::now();
   std::cout << "Точность распознавания входной выборки: " << report["accuracy"] << std::endl;
+  std::cout << "Подсчет точности распознавания изображений из входной выборки прошел за: " << std::chrono::duration_cast<std::chrono::seconds>(current - start).count() << " секунд" << std::endl;
 
   if (options.test_selection_path.size() > 0)
   {
     std::cout << std::endl
               << "Подсчет точности распознавания изображений из тестовой выборки" << std::endl;
 
+    start = std::chrono::steady_clock::now();
     nlohmann::json test_selection = read_json_from_file(options.test_selection_path);
 
     correct = 0;
@@ -155,8 +163,9 @@ int main(int argc, char *argv[])
       }
     }
     float test_selection_recognition_accuracy = (float)correct / test_selection.size();
-
+    current = std::chrono::steady_clock::now();
     std::cout << "Точность распознавания тестовой выборки: " << test_selection_recognition_accuracy << std::endl;
+    std::cout << "Подсчет точности распознавания изображений из тестовой выборки прошел за: " << std::chrono::duration_cast<std::chrono::seconds>(current - start).count() << " секунд" << std::endl;
   }
 
   if (options.generate_report)
