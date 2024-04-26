@@ -14,3 +14,4 @@
 | --first-layer-neurons-count | unsigned int   | 64                    | Количество нейронов в первом слое нейросети                                                  |
 | --generate-report           | bool           | false                 | Сгенерировать отчет по обучению                                                              |
 | --no-weights-save           | bool           | false                 | Отключить сохранение весов после обучения нейросети                                          |
+| --no-dataset-shuffle        | bool           | false                 | Отключить перемешивание датасета в начале эпохи                                              |

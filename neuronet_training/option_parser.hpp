@@ -18,6 +18,7 @@ namespace neuronet
     unsigned int epochs_count = 100;
     bool generate_report = false;
     bool save_weights = true;
+    bool dataset_shuffle = true;
   } trainer_options;
 
   class OptionParserException: public std::exception
@@ -68,6 +69,10 @@ namespace neuronet
       else if (arg == "--no-weights-save")
       {
         options->save_weights = false;
+      }
+      else if (arg == "--no-dataset-shuffle")
+      {
+        options->dataset_shuffle = false;
       }
     }
 

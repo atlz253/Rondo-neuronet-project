@@ -1,5 +1,7 @@
+#include <random>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
@@ -40,10 +42,19 @@ int main(int argc, char *argv[])
 
   nlohmann::json dataset = read_json_from_file(options.input_selection_path);
 
+  auto rd = std::random_device{};
+  auto rng = std::default_random_engine{rd()};
+
   std::cout << "Обучение нейросети" << std::endl;
   for (int i = 0; i < options.epochs_count; i++)
   {
     show_progress_bar((float)(i * dataset.size()) / (options.epochs_count * dataset.size()));
+
+    if (options.dataset_shuffle)
+    {
+      std::shuffle(std::begin(dataset), std::end(dataset), rng);
+    }
+
     for (int j = 0; j < dataset.size(); j++)
     {
       boost::numeric::ublas::matrix<double> question = neuronet::json_to_matrix<double>(dataset[j]["values"]);
@@ -137,7 +148,6 @@ int main(int argc, char *argv[])
 
     std::cout << "Точность распознавания тестовой выборки: " << test_selection_recognition_accuracy << std::endl;
   }
-
 
   if (options.generate_report)
   {
