@@ -16,6 +16,8 @@ namespace neuronet
     std::string input_selection_path;
     std::string test_selection_path;
     unsigned int epochs_count = 100;
+    bool generate_report = false;
+    bool save_weights = true;
   } trainer_options;
 
   class OptionParserException: public std::exception
@@ -58,6 +60,14 @@ namespace neuronet
       else if (arg == "--first-layer-neurons-count")
       {
         options->neuronet_params.first_layer_neurons_count = std::stoi((*arguments)[arg].front());
+      }
+      else if (arg == "--generate-report")
+      {
+        options->generate_report = true;
+      }
+      else if (arg == "--no-weights-save")
+      {
+        options->save_weights = false;
       }
     }
 

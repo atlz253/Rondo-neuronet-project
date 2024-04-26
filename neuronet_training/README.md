@@ -12,3 +12,5 @@
 | --learning-rate             | double         | 0.01                  | Скорость обучения нейронной сети                                                             |
 | --epochs-count              | unsigned int   | 100                   | Количество эпох обучения                                                                     |
 | --first-layer-neurons-count | unsigned int   | 64                    | Количество нейронов в первом слое нейросети                                                  |
+| --generate-report           | bool           | false                 | Сгенерировать отчет по обучению                                                              |
+| --no-weights-save           | bool           | false                 | Отключить сохранение весов после обучения нейросети                                          |
