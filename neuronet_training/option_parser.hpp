@@ -14,6 +14,7 @@ namespace neuronet
   {
     neuronet_options neuronet_params;
     std::string input_selection_path;
+    std::string test_selection_path;
     unsigned int epochs_count = 100;
   } trainer_options;
 
@@ -41,6 +42,10 @@ namespace neuronet
       if (arg == "--input-selection")
       {
         options->input_selection_path = (*arguments)[arg].front();
+      }
+      else if (arg == "--test-selection")
+      {
+        options->test_selection_path = (*arguments)[arg].front();
       }
       else if (arg == "--learning-rate")
       {

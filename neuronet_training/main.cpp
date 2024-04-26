@@ -106,6 +106,31 @@ int main(int argc, char *argv[])
   report["accuracy"] = (float)correct / dataset.size();
   std::cout << "Точность распознавания входной выборки: " << report["accuracy"] << std::endl;
 
+  if (options.test_selection_path.size() > 0)
+  {
+    std::cout << std::endl
+              << "Подсчет точности распознавания изображений из тестовой выборки" << std::endl;
+
+    nlohmann::json test_selection = read_json_from_file(options.test_selection_path);
+
+    correct = 0;
+    for (int j = 0; j < test_selection.size(); j++)
+    {
+      boost::numeric::ublas::matrix<double> question = neuronet::json_to_matrix<double>(test_selection[j]["values"]);
+      boost::numeric::ublas::matrix<double> answer = neuronet::json_to_matrix<double>(test_selection[j]["answer"]);
+      boost::numeric::ublas::matrix<double> z = n.forward(question);
+      unsigned int z_index = neuronet::get_maximum_vector_index(z);
+
+      if (answer(0, z_index) == 1)
+      {
+        correct++;
+      }
+    }
+    float test_selection_recognition_accuracy = (float)correct / test_selection.size();
+
+    std::cout << "Точность распознавания тестовой выборки: " << test_selection_recognition_accuracy << std::endl;
+  }
+
   std::cout << "Запись полученных данных в хранилище" << std::endl;
 
   show_progress_bar(0);
