@@ -5,6 +5,7 @@
 
 #include <boost/numeric/ublas/matrix.hpp>
 
+#include "clipping_by_value.hpp"
 #include "linear_algebra.hpp"
 
 namespace neuronet
@@ -19,7 +20,11 @@ namespace neuronet
 
     boost::numeric::ublas::matrix<T> result(1, m.size2());
     result = exp_matrix(m);
-    result /= sum_vector_values(result);
+    result = clipping_by_value(result, std::numeric_limits<T>::max() / m.size2(), std::numeric_limits<T>::min());
+    T values_sum = sum_vector_values(result);
+    assert(!std::isinf(values_sum));
+    result /= values_sum;
+
     return result;
   }
 }

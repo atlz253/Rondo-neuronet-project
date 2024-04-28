@@ -27,16 +27,16 @@ int main(int argc, char *argv[])
   
   neuronet::Neuronet n(weights);
 
-  boost::container::vector<std::string> classes{"буква C", "буква D", "буква O", "буква Q", "ни на что не похоже"};
+  boost::container::vector<std::string> classes{"_", "-", ",", ";", "!", "'", "(", ")", "[", "]", "@", "&", "#", "%", "^", "+", "=", "$", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "A", "b", "B", "/", "c", "C", ":", "d", "D", ".", "e", "E", "f", "F", "g", "G", "h", "H", "i", "I", "j", "J", "k", "K", "l", "L", "|", "m", "M", "n", "N", "o", "O", "p", "P", "q", "Q", "\"", "r", "R", "s", "S", "\\", "*", "t", "T", "u", "U", "v", "V", "w", "W", "x", "X", "y", "Y", "z", "Z", "ни на что не похоже"};
   image::Image img = image::read_png_image(argv[1]);
 
   nlohmann::json mask_json = img.get_mask().to_json();
-  boost::numeric::ublas::matrix<double> m = neuronet::json_vector_to_matrix<double>(mask_json["values"]); // TODO: json_to_vector
+  boost::numeric::ublas::matrix<double> m = neuronet::json_vector_to_matrix<double>(mask_json["values"]);
 
   boost::numeric::ublas::matrix<double> answer = n.forward(m);
   unsigned int answer_index = neuronet::get_maximum_vector_index(answer);
 
-  if (answer_index == 4)
+  if (answer_index == 87)
   {
     std::cout << "Мне не удалось распознать образ :(" << std::endl;
   }

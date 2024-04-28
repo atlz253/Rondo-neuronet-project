@@ -5,7 +5,7 @@ BUILD_PATH = ../build
 
 all: build
 
-build: main.cpp random.hpp random.cpp image.hpp image.cpp generator.hpp filesystem.hpp filesystem.cpp help_message.hpp options_parser.hpp
+build: main.cpp random.hpp random.cpp generator.hpp filesystem.hpp filesystem.cpp help_message.hpp options_parser.hpp
 	mkdir -p $(BUILD_PATH)
 	g++ main.cpp $(FILES) $(LIBRARIES) -o $(BUILD_PATH)/noisgen
 

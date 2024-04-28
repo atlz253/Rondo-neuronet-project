@@ -85,7 +85,11 @@ namespace neuronet
       {
         if (m(i, j) >= 709.8)
         {
-          result(i, j) = -std::numeric_limits<T>::max();
+          result(i, j) = exp(709.8);
+        }
+        else if (m(i, j) <= -708.4)
+        {
+          result(i, j) = exp(-708.4);
         }
         else
         {

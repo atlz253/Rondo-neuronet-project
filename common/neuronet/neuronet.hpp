@@ -1,6 +1,8 @@
 #ifndef NEURONET_HPP
 #define NEURONET_HPP
 
+#include <cassert>
+
 #include <boost/numeric/ublas/matrix.hpp>
 
 #include "../../external/json.hpp"
@@ -11,14 +13,14 @@
 #include "activation_functions.hpp"
 
 #define NEURONET_INPUTS 64 // Количество пикселей в изображении 8x8
-#define NEURONET_OUTPUTS 5 // Возможные варианты ответа: C, D, O, Q, Неизвестно
+#define NEURONET_OUTPUTS 88
 
 namespace neuronet
 {
   typedef struct neuronet_options
   {
     double learning_rate = 0.001;
-    unsigned int first_layer_neurons_count = 64;
+    unsigned int first_layer_neurons_count = 128;
   } neuronet_options;
 
   class Neuronet
@@ -83,6 +85,8 @@ namespace neuronet
       matrix<double> W2xQuestion = multiply_matrix_by_matrix(h1, W2);
       t2 = W2xQuestion + b2;
       last_result = softmax(t2);
+
+      assert(last_result(0, 0) == last_result(0, 0));
 
       return last_result;
     }
