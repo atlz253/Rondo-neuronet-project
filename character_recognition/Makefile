@@ -1,5 +1,4 @@
 LIBRARIES = -l png
-TEMP_PATH = ../temp/spchar
 BUILD_PATH = ../build
 
 all: build

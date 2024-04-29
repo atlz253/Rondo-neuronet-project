@@ -21,7 +21,31 @@
 
 ## Зависимости
 ### Ubuntu 22.04
-`apt install libboost-dev libboost-test-dev libpng-dev`
+#### Для сборки
+`apt install libboost-dev libpng-dev`
+#### Для запуска
+`apt install libpng16-16`
+
+## Docker
+### spchar
+1. Собираем образ: `docker build -f Dockerfile.spchar -t spchar .`
+2. Запускаем распознавание изображения внутри контейнера: `docker run -v "<путь_до_изображения>:/image.png" -e SHOW_PRECENTAGE=true spchar`
+```
+> docker run -v "D:\Desktop\D.png:/image.png" -e SHOW_PRECENTAGE=true spchar
+Я думаю, что на изображении D
+Если подробнее, то вот что я думаю об этом изображении:
+Вероятность, что это _: 0.00%
+Вероятность, что это -: 0.00%
+Вероятность, что это ,: 0.00%
+Вероятность, что это ;: 0.00%
+Вероятность, что это !: 0.00%
+Вероятность, что это ': 0.00%
+Вероятность, что это (: 0.00%
+Вероятность, что это ): 0.00%
+Вероятность, что это [: 0.00%
+...
+```
+
 
 ## Благодарности
 
