@@ -1,4 +1,4 @@
-FROM ubuntu:jammy as build
+FROM ubuntu:jammy as spcharbuild
 COPY character_recognition character_recognition
 COPY common common
 COPY external external
@@ -7,7 +7,7 @@ RUN make -C character_recognition
 
 FROM ubuntu:jammy as spchar
 ENV SHOW_PRECENTAGE ""
-COPY --from=build build .
+COPY --from=spcharbuild build .
 COPY docker/spchar.sh spchar.sh
 RUN apt update && apt install -y libpng16-16
 ENTRYPOINT ["./spchar.sh"]

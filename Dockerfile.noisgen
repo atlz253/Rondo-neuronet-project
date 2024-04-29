@@ -1,0 +1,17 @@
+FROM ubuntu:jammy as noisgenbuild
+COPY noise_image_selection_generator noise_image_selection_generator
+COPY common common
+COPY external external
+RUN apt update && apt install -y make g++ libboost-dev libboost-filesystem-dev libboost-system-dev libpng-dev
+RUN make -C noise_image_selection_generator
+
+FROM ubuntu:jammy as noisgen
+ENV ITERATIONS "1"
+ENV PRECENTAGE ""
+ENV SEED ""
+ENV NO_IMAGE_GENERATION ""
+ENV NO_SELECTION_JSON ""
+COPY docker/noisgen.sh noisgen.sh
+COPY --from=noisgenbuild build .
+RUN apt update && apt install -y libpng16-16 libboost-filesystem1.74.0 libboost-system1.74.0
+ENTRYPOINT ["./noisgen.sh"]

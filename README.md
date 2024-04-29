@@ -22,11 +22,17 @@
 ## Зависимости
 ### Ubuntu 22.04
 #### Для сборки
-`apt install libboost-dev libpng-dev`
+`apt install libboost-dev libboost-filesystem-dev libboost-system-dev libpng-dev`
 #### Для запуска
 `apt install libpng16-16`
 
 ## Docker
+### noisgen
+1. Собираем образ: `docker build -f Dockerfile.noisgen -t noisgen .`
+2. Запускаем генератор изображений: `docker run -v "<путь_до_выборки>:/var/input" -v "<путь_сохранения>:/var/output" -e ITERATIONS=10 -e SEED=test -e PRECENTAGE=0.05 -e NO_IMAGE_GENERATION=true noisgen`
+```
+> docker run -v "C:\test\clear:/var/input" -v "C:\test\out:/var/output" -e ITERATIONS=10 -e SEED=test -e PRECENTAGE=0.05 -e NO_IMAGE_GENERATION=true noisgen
+```
 ### spchar
 1. Собираем образ: `docker build -f Dockerfile.spchar -t spchar .`
 2. Запускаем распознавание изображения внутри контейнера: `docker run -v "<путь_до_изображения>:/image.png" -e SHOW_PRECENTAGE=true spchar`
