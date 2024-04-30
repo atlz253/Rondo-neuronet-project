@@ -1,7 +1,7 @@
 FROM ubuntu:jammy as spcharbuild
-COPY character_recognition character_recognition
-COPY common common
 COPY external external
+COPY common common
+COPY character_recognition character_recognition
 RUN apt update && apt install -y make g++ libboost-dev libpng-dev
 RUN make -C character_recognition
 

@@ -1,0 +1,17 @@
+FROM ubuntu:jammy as neucatbuild
+COPY external external
+COPY common common
+COPY neuronet_training neuronet_training
+RUN apt update && apt install -y make g++ libboost-dev libboost-filesystem-dev libboost-system-dev libpng-dev
+RUN make -C neuronet_training
+
+FROM ubuntu:jammy as neucat
+ENV LEARNING_RATE "0.001"
+ENV EPOCHS_COUNT "100"
+ENV FIRST_LAYER_NEURONS_COUNT "64"
+ENV GENERATE_REPORT ""
+ENV NO_WEIGHTS_SAVE ""
+ENV NO_DATASET_SHUFFLE ""
+COPY docker/neucat.sh neucat.sh
+COPY --from=neucatbuild build .
+ENTRYPOINT ["./neucat.sh"]

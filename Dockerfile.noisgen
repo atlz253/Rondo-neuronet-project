@@ -1,7 +1,7 @@
 FROM ubuntu:jammy as noisgenbuild
-COPY noise_image_selection_generator noise_image_selection_generator
-COPY common common
 COPY external external
+COPY common common
+COPY noise_image_selection_generator noise_image_selection_generator
 RUN apt update && apt install -y make g++ libboost-dev libboost-filesystem-dev libboost-system-dev libpng-dev
 RUN make -C noise_image_selection_generator
 
