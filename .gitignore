@@ -3,3 +3,5 @@ temp
 .vscode
 a.out
 character_recognition/weights.cpp
+character_recognition/package/usr
+packages

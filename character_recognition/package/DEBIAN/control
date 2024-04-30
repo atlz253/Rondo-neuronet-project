@@ -1,0 +1,10 @@
+Package: spchar
+Version: 1.0
+Section: misc
+Priority: optional
+Depends: libpng16-16
+Architecture: amd64
+Essential: no
+Installed-Size: 1528
+Maintainer: Fedor Alekseev <f.alexeeff2010@yandex.ru>
+Description: ZX Spectrum character recognition from images

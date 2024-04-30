@@ -29,7 +29,7 @@
 
 #### Для сборки
 
-`apt install libboost-dev libboost-filesystem-dev libboost-system-dev libpng-dev`
+`apt install make g++ libboost-dev libboost-filesystem-dev libboost-system-dev libpng-dev`
 
 #### Для запуска
 
