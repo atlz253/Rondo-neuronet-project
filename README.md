@@ -31,7 +31,7 @@
 
 #### Для запуска
 
-`apt install libpng16-16`
+`apt install libpng16-16 libboost-filesystem1.74.0 libboost-system1.74.0`
 
 ## Docker
 
